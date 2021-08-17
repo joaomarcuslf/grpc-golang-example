@@ -17,17 +17,40 @@ func main() {
 
 	defer connection.Close()
 
+	Hello(context.Background(), connection)
+	GetAllUsers(context.Background(), connection)
+}
+
+func Hello(ctx context.Context, connection *grpc.ClientConn) (*pb.HelloResponse, error) {
 	client := pb.NewHelloServiceClient(connection)
 
 	request := &pb.HelloRequest{
 		Name: "João",
 	}
 
-	response, err := client.Hello(context.Background(), request)
+	response, err := client.Hello(ctx, request)
 
 	if err != nil {
 		log.Fatalf("Error during request: %v", err)
 	}
 
 	log.Println(response.Msg)
+
+	return response, err
+}
+
+func GetAllUsers(ctx context.Context, connection *grpc.ClientConn) (*pb.UsersResponse, error) {
+	client := pb.NewUsersServiceClient(connection)
+
+	request := &pb.UsersRequest{}
+
+	response, err := client.GetAll(ctx, request)
+
+	if err != nil {
+		log.Fatalf("Error during request: %v", err)
+	}
+
+	log.Println(response.Users)
+
+	return response, err
 }
