@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  api:
+    build: ./api
+    command: air -c .air.toml
+    volumes:
+      - ./api/:/usr/app
+      - ./api/:/go/src/golang_api
+      - ./api/:/usr/local/go/src/golang_api
+    ports:
+      - 5000:5000
+    env_file:
+      - ./.env
+    environment:
+      PORT: 5000

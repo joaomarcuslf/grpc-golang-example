@@ -1,6 +1,6 @@
 # auth-blog-service
 
-![Actions Workflow](/workflows/go/badge.svg)
+![Actions Workflow](/grpc-golang-example/workflows/go/badge.svg)
 
 ## How to Start Development
 
