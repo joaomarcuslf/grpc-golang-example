@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"golang_api/pb"
 	"log"
 	"net"
@@ -19,9 +20,9 @@ var users = []*pb.User{
 }
 
 func (s *server) Hello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResponse, error) {
-	result := "Hello " + req.GetName()
+	log.Println("Received request:", req)
 
-	log.Println("Received request:", req.GetName())
+	result := "Hello " + req.GetName()
 
 	res := &pb.HelloResponse{
 		Msg: result,
@@ -31,6 +32,8 @@ func (s *server) Hello(ctx context.Context, req *pb.HelloRequest) (*pb.HelloResp
 }
 
 func (s *server) GetAll(ctx context.Context, req *pb.UsersRequest) (*pb.UsersResponse, error) {
+	log.Println("Received request:", req)
+
 	res := &pb.UsersResponse{
 		Users: users,
 	}
@@ -39,6 +42,8 @@ func (s *server) GetAll(ctx context.Context, req *pb.UsersRequest) (*pb.UsersRes
 }
 
 func (s *server) ByName(ctx context.Context, req *pb.UserByNameRequest) (*pb.UserByNameResponse, error) {
+	log.Println("Received request:", req)
+
 	for _, u := range users {
 		if u.Name == req.GetName() {
 			res := &pb.UserByNameResponse{
@@ -49,7 +54,7 @@ func (s *server) ByName(ctx context.Context, req *pb.UserByNameRequest) (*pb.Use
 		}
 	}
 
-	return nil, nil
+	return nil, fmt.Errorf("User not found")
 }
 
 func main() {
