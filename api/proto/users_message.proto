@@ -4,8 +4,16 @@ option go_package = "./pb";
 
 message UsersRequest {}
 
+message UserByNameRequest {
+  string name = 1;
+}
+
 message UsersResponse {
   repeated User users = 1;
+}
+
+message UserByNameResponse {
+  User user = 1;
 }
 
 message User {
@@ -15,4 +23,5 @@ message User {
 
 service UsersService {
   rpc GetAll(UsersRequest) returns (UsersResponse) {};
+  rpc ByName(UserByNameRequest) returns (UserByNameResponse) {};
 }

@@ -38,6 +38,20 @@ func (s *server) GetAll(ctx context.Context, req *pb.UsersRequest) (*pb.UsersRes
 	return res, nil
 }
 
+func (s *server) ByName(ctx context.Context, req *pb.UserByNameRequest) (*pb.UserByNameResponse, error) {
+	for _, u := range users {
+		if u.Name == req.GetName() {
+			res := &pb.UserByNameResponse{
+				User: u,
+			}
+
+			return res, nil
+		}
+	}
+
+	return nil, nil
+}
+
 func main() {
 	lis, err := net.Listen("tcp", "0.0.0.0:5000")
 

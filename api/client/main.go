@@ -19,6 +19,7 @@ func main() {
 
 	Hello(context.Background(), connection)
 	GetAllUsers(context.Background(), connection)
+	GetByNameUsers(context.Background(), connection)
 }
 
 func Hello(ctx context.Context, connection *grpc.ClientConn) (*pb.HelloResponse, error) {
@@ -51,6 +52,24 @@ func GetAllUsers(ctx context.Context, connection *grpc.ClientConn) (*pb.UsersRes
 	}
 
 	log.Println(response.Users)
+
+	return response, err
+}
+
+func GetByNameUsers(ctx context.Context, connection *grpc.ClientConn) (*pb.UserByNameResponse, error) {
+	client := pb.NewUsersServiceClient(connection)
+
+	request := &pb.UserByNameRequest{
+		Name: "João",
+	}
+
+	response, err := client.ByName(ctx, request)
+
+	if err != nil {
+		log.Fatalf("Error during request: %v", err)
+	}
+
+	log.Println(response.User)
 
 	return response, err
 }
